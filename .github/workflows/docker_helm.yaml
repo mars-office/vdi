@@ -1,0 +1,27 @@
+name: 'Docker/Helm build and push'
+
+run-name: '0.0.${{ github.run_number }} - ${{ github.workflow }}'
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+jobs:
+  docker_build_push:
+    uses: mars-office/.github/.github/workflows/docker.yaml@main
+    secrets: inherit
+    with:
+      version: 'v0.0.${{ github.run_number }}'
+  helm_build_push:
+    uses: mars-office/.github/.github/workflows/helm.yaml@main
+    secrets: inherit
+    needs: [docker_build_push]
+    with:
+      version: '0.0.${{ github.run_number }}'
+      workingDirectory: 'chart'
