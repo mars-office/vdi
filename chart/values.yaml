@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/mars-office/template-deployable
+  repository: ghcr.io/mars-office/vdi
   pullPolicy: IfNotPresent
   tag: ""
 
@@ -41,7 +41,7 @@ ingress:
   className: ""
   annotations: {}
   hosts:
-    - host: template-deployable.local.marsconceptor.com
+    - host: vdi.local.marsconceptor.com
       paths:
         - path: /
           pathType: ImplementationSpecific

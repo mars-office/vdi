@@ -1,2 +1,4 @@
 *.sh eol=lf
 *.conf eol=lf
+*.ini eol=lf
+*.sed eol=lf
