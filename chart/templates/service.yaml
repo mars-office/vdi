@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "vdi.fullname" . }}
-  labels: {{ - include "vdi.labels" . | nindent 4 }}
+  labels: {{- include "vdi.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -10,4 +10,4 @@ spec:
       targetPort: http
       protocol: TCP
       name: http
-  selector: {{ - include "vdi.selectorLabels" . | nindent 4 }}
+  selector: {{- include "vdi.selectorLabels" . | nindent 4 }}
