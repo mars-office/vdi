@@ -1,8 +1,5 @@
 vncPassword: test123
 
-image:
-  tag: "latest"
-
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
