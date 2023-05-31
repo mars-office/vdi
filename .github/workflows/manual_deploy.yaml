@@ -1,0 +1,31 @@
+name: 'Manual Deploy'
+
+run-name: '${{ github.event.inputs.operation}} ${{ github.event.inputs.env}} - ${{ github.event.inputs.version}} - ${{ github.workflow }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: number
+        required: false
+      operation:
+        type: choice
+        options:
+          - upgrade
+          - uninstall
+        default: 'upgrade'
+      env:
+        type: environment
+        required: true
+        default: 'dev'
+
+jobs:
+  deploy:
+    uses: mars-office/.github/.github/workflows/deploy.yaml@main
+    secrets: inherit
+    with:
+      version: '${{ github.event.inputs.version }}'
+      env: ${{ github.event.inputs.env }}
+      chartName: 'vdi'
+      namespace: 'vdi'
+      operation: '${{ github.event.inputs.operation }}'
