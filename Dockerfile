@@ -12,10 +12,7 @@ RUN pacman-mirrors --country Germany
 RUN pacman -Syyu
 
 # Install lxqt desktop + lightdm display manager
-RUN pacman --noconfirm -S plasma kio-extras manjaro-kde-settings sddm-breath-theme manjaro-settings-manager-knotifier manjaro-settings-manager-kcm xorg-server-xvfb x11vnc supervisor
-
-# Enable lightdm
-RUN systemctl enable sddm.service --force
+RUN pacman --noconfirm -S plasma kio-extras xorg-server-xvfb x11vnc supervisor
 
 # Expose VNC and noVNC ports out of the container
 EXPOSE 6080 5900
