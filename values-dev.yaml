@@ -1,3 +1,9 @@
+regcred:
+  registryCredentials:
+    - url: ghcr.io
+      username: 'mars-office'
+      password: '${GH_TOKEN}'
+
 vncPassword: test123
 
 ingress:

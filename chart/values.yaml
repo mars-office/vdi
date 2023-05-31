@@ -1,3 +1,11 @@
+regcred:
+  nameOverride: 'regcred'
+  fullnameOverride: 'regcred'
+  registryCredentials:
+    - url: ghcr.io
+      username: ''
+      password: ''
+      
 replicaCount: 1
 vncPassword: ''
 
