@@ -1,4 +1,5 @@
 replicaCount: 1
+vncPassword: ''
 
 image:
   repository: ghcr.io/mars-office/vdi
@@ -34,7 +35,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 6080
+  port: 6901
 
 ingress:
   enabled: false
