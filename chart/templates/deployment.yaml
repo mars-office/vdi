@@ -42,7 +42,7 @@ spec:
             - name: VNC_PW
               valueFrom:
                 secretKeyRef:
-                  name: asd
+                  name: {{ include "vdi.fullname" . }}
                   key: vncPassword
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
