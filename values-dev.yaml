@@ -6,6 +6,9 @@ regcred:
 
 vncPassword: test123
 
+imagePullSecrets:
+  - name: regcred
+
 ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
