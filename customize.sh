@@ -27,7 +27,6 @@ add-apt-repository ppa:saiarcot895/chromium-beta
 apt-get update
 
 # Chromium
-ENV CHROMIUM_USER_FLAGS --no-sandbox
 apt-get install -y chromium-browser
 
 

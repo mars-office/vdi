@@ -7,6 +7,7 @@ ENV INST_SCRIPTS $STARTUPDIR/install
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
+ENV CHROMIUM_USER_FLAGS --no-sandbox
 
 COPY ./customize.sh /customize.sh
 RUN chmod +x /customize.sh
