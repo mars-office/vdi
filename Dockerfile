@@ -31,8 +31,15 @@ RUN sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyri
 RUN sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 RUN rm -f packages.microsoft.gpg
 
+RUN add-apt-repository ppa:saiarcot895/chromium-beta
+
 # Update again
 RUN apt-get update
+
+# Chromium
+RUN apt-get install -y chromium-browser
+
+
 
 # NodeJS and NPM
 RUN apt-get install -y nodejs
@@ -55,14 +62,6 @@ RUN rm -rf ./linux-$(dpkg --print-architecture)
 
 # TerraForm
 RUN sudo apt-get install -y terraform
-
-# Chrome
-RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_$(dpkg --print-architecture).deb
-RUN apt install -y ./google-chrome-stable_current_$(dpkg --print-architecture).deb
-RUN rm ./google-chrome-stable_current_$(dpkg --print-architecture).deb
-RUN truncate -s-1 /usr/bin/google-chrome
-RUN echo -n " --no-sandbox" >> /usr/bin/google-chrome
-
 
 
 RUN echo "export NODE_ENV=development" >> /home/kasm-default-profile/.bashrc
