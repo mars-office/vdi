@@ -1,5 +1,5 @@
 vncPassword: ''
-
+user: 'kasm-user'
 
 image:
   repository: ghcr.io/mars-office/vdi

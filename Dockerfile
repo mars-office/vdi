@@ -8,11 +8,12 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-RUN apt-get update \
-    && apt-get install -y sudo \
+RUN apt-get update
+RUN apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
+RUN apt-get install -y wget git curl
 
 ######### End Customizations ###########
 

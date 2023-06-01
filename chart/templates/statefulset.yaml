@@ -36,6 +36,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: KASM_USER
+              value: '{{ .Values.user }}'
             - name: VNC_PW
               valueFrom:
                 secretKeyRef:
@@ -43,7 +45,7 @@ spec:
                   key: vncPassword
           volumeMounts:
             - name: {{ include "vdi.fullname" . }}-workspace
-              mountPath: /home/kasm-user/workspace
+              mountPath: /home/kasm-user
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
