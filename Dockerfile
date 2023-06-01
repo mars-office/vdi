@@ -37,6 +37,7 @@ RUN add-apt-repository ppa:saiarcot895/chromium-beta
 RUN apt-get update
 
 # Chromium
+ENV CHROMIUM_USER_FLAGS --no-sandbox
 RUN apt-get install -y chromium-browser
 
 
@@ -65,6 +66,7 @@ RUN sudo apt-get install -y terraform
 
 
 RUN echo "export NODE_ENV=development" >> /home/kasm-default-profile/.bashrc
+RUN echo "export CHROMIUM_USER_FLAGS=--no-sandbox" >> /home/kasm-default-profile/.bashrc
 RUN echo "export HELM_EXPERIMENTAL_OCI=1" >> /home/kasm-default-profile/.bashrc
 RUN echo "export ASPNETCORE_ENVIRONMENT=Development" >> /home/kasm-default-profile/.bashrc
 RUN echo "export DOTNET_ENVIRONMENT=Development" >> /home/kasm-default-profile/.bashrc
