@@ -2,3 +2,4 @@
 *.conf eol=lf
 *.ini eol=lf
 *.sed eol=lf
+*.json eol=lf

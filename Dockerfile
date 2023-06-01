@@ -12,7 +12,9 @@ ENV CHROMIUM_USER_FLAGS --no-sandbox
 COPY ./customize.sh /customize.sh
 RUN chmod +x /customize.sh
 RUN /customize.sh
-RUN rm -rf /customize.sh
+
+RUN mkdir -p /home/kasm-default-profile/.config/Code/User
+COPY ./vscode-settings.json /home/kasm-default-profile/.config/Code/User/settings.json
 
 ######### End Customizations ###########
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 apt-get update
 apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
@@ -29,15 +31,11 @@ apt-get update
 # Chromium
 apt-get install -y chromium-browser
 
-
-
 # NodeJS and NPM
 apt-get install -y nodejs
 
-npm i -g typescript @angular/cli gitfox
+npm i -g gitfox
 
-# VSCode
-apt-get install -y code
 
 # Kubectl
 apt-get install -y kubectl
@@ -52,6 +50,35 @@ rm -rf ./linux-$(dpkg --print-architecture)
 
 # TerraForm
 sudo apt-get install -y terraform
+
+# OPA
+curl -L -o opa https://openpolicyagent.org/downloads/v0.53.0/opa_linux_$(dpkg --print-architecture)_static
+mv ./opa /usr/bin/opa
+chmod +x /usr/bin/opa
+
+# VSCode
+apt-get install -y code
+
+sed -i 's/\/usr\/share\/code\/code/\/usr\/share\/code\/code --no-sandbox/gI' /usr/share/applications/code.desktop
+sed -i 's/\/usr\/share\/code\/code/\/usr\/share\/code\/code --no-sandbox/gI' /usr/share/applications/code-url-handler.desktop
+
+mkdir -p /home/kasm-default-profile/.vscode
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension esbenp.prettier-vscode
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension donjayamanne.githistory
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension tsandall.opa
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension Postman.postman-for-vscode
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension vscode-icons-team.vscode-icons
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension mikestead.dotenv
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension EditorConfig.EditorConfig
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension dsznajder.es7-react-js-snippets
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension dbaeumer.vscode-eslint
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension github.vscode-github-actions
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension ecmel.vscode-html-css
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension hashicorp.terraform
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension ZixuanChen.vitest-explorer
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension redhat.vscode-xml
+code --no-sandbox --user-data-dir /home/kasm-default-profile/.vscode --install-extension ms-playwright.playwright
 
 
 echo "export NODE_ENV=development" >> /home/kasm-default-profile/.bashrc
