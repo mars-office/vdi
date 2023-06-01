@@ -12,6 +12,8 @@ RUN apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
+COPY ./kasm_default_profile.sh /dockerstartup/kasm_default_profile.sh
+RUN chmod +x /dockerstartup/kasm_default_profile.sh
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
