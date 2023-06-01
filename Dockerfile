@@ -13,8 +13,21 @@ RUN apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
-RUN apt-get install -y wget git curl
+RUN apt-get install -y wget git curl nano
 
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_$(dpkg --print-architecture).deb
+RUN apt install -y ./google-chrome-stable_current_$(dpkg --print-architecture).deb
+RUN rm ./google-chrome-stable_current_$(dpkg --print-architecture).deb
+RUN truncate -s-1 /usr/bin/google-chrome
+RUN echo -n " --no-sandbox" >> /usr/bin/google-chrome
+
+RUN echo "export NODE_ENV=development" >> /home/kasm-default-profile/.bashrc
+RUN echo "export HELM_EXPERIMENTAL_OCI=1" >> /home/kasm-default-profile/.bashrc
+RUN echo "export ASPNETCORE_ENVIRONMENT=Development" >> /home/kasm-default-profile/.bashrc
+RUN echo "export DOTNET_ENVIRONMENT=Development" >> /home/kasm-default-profile/.bashrc
+RUN echo "export FUNCTIONS_ENVIRONMENT=Development" >> /home/kasm-default-profile/.bashrc
+RUN mkdir -p /home/kasm-default-profile/Software
+RUN echo "export PATH=\$PATH:~/Software" >> /home/kasm-default-profile/.bashrc
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
