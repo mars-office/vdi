@@ -7,14 +7,10 @@ ENV INST_SCRIPTS $STARTUPDIR/install
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
-ENV CHROMIUM_USER_FLAGS --no-sandbox
-
-COPY ./customize.sh /customize.sh
-RUN chmod +x /customize.sh
-RUN /customize.sh
-
-RUN mkdir -p /home/kasm-default-profile/.config/Code/User
-COPY ./vscode-settings.json /home/kasm-default-profile/.config/Code/User/settings.json
+RUN apt-get update
+RUN apt-get install -y sudo \
+    && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
+    && rm -rf /var/lib/apt/list/*
 
 ######### End Customizations ###########
 
