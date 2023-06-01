@@ -38,6 +38,11 @@ spec:
           env:
             - name: KASM_USER
               value: '{{ .Values.user }}'
+            - name: VNC_VIEW_ONLY_PW
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "vdi.fullname" . }}
+                  key: vncPassword
             - name: VNC_PW
               valueFrom:
                 secretKeyRef:
