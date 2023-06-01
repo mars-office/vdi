@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
-
+RUN apt-get install -y unzip wget curl
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
