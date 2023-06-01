@@ -12,8 +12,6 @@ RUN apt-get install -y sudo \
     && echo 'kasm-user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers \
     && rm -rf /var/lib/apt/list/*
 
-COPY ./kasm_default_profile.sh /dockerstartup/kasm_default_profile.sh
-RUN chmod +x /dockerstartup/kasm_default_profile.sh
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
@@ -23,6 +21,13 @@ ENV HOME /home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
-USER 1000
+
+
+ENTRYPOINT ["/dockerstartup/kasm_default_profile.sh", "/dockerstartup/customize_at_boot.sh", "/dockerstartup/vnc_startup.sh", "/dockerstartup/kasm_startup.sh"]
 
 LABEL org.opencontainers.image.source=https://github.com/mars-office/vdi
+
+COPY ./customize_at_boot.sh /dockerstartup/customize_at_boot.sh
+RUN chmod +x /dockerstartup/customize_at_boot.sh
+
+USER 1000
