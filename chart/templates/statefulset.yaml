@@ -1,13 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "vdi.fullname" . }}
   labels:
     {{- include "vdi.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
+  serviceName: {{ include "vdi.fullname" . }}
+  replicas: 1
   selector:
     matchLabels:
       {{- include "vdi.selectorLabels" . | nindent 6 }}
@@ -30,8 +29,6 @@ spec:
       serviceAccountName: {{ include "vdi.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      volumes:
-        {{- toYaml .Values.volumes | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -45,7 +42,8 @@ spec:
                   name: {{ include "vdi.fullname" . }}
                   key: vncPassword
           volumeMounts:
-            {{- toYaml .Values.volumeMounts | nindent 12 }}
+            - name: {{ include "vdi.fullname" . }}-workspace
+              mountPath: /home/kasm-user/workspace
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -64,3 +62,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "vdi.fullname" . }}-workspace
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.persistence.workspace.size }}
