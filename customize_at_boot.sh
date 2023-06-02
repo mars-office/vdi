@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 
-# if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
-#   echo "[$(date -Iseconds)] [CgroupV2 Fix] Evacuating Root Cgroup ..."
-# 	# move the processes from the root group to the /init group,
-#   # otherwise writing subtree_control fails with EBUSY.
-#   sudo mkdir -p /sys/fs/cgroup/init
-#   sudo xargs -rn1 < /sys/fs/cgroup/cgroup.procs > /sys/fs/cgroup/init/cgroup.procs || :
-#   # enable controllers
-#   sudo sed -e 's/ / +/g' -e 's/^/+/' <"/sys/fs/cgroup/cgroup.controllers" >"/sys/fs/cgroup/cgroup.subtree_control"
-#   echo "[$(date -Iseconds)] [CgroupV2 Fix] Done"
-# fi
+whoami
+sudo su - -c "
+if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
+  mkdir -p /sys/fs/cgroup/init
+  busybox xargs -rn1 < /sys/fs/cgroup/cgroup.procs > /sys/fs/cgroup/init/cgroup.procs || :
+  sed -e 's/ / +/g' -e 's/^/+/' <\"/sys/fs/cgroup/cgroup.controllers\" >\"/sys/fs/cgroup/cgroup.subtree_control\"
+fi
+"
 
 rm -rf $HOME/.customized
 if  [ -f "$HOME/.customized" ]; then
@@ -95,6 +93,7 @@ END
     then
         cd $HOME/Software
         mkdir -p $HOME/.rancher/k3s
+        mkdir -p $HOME/.kube
         arch=$(dpkg --print-architecture)
         if [ "$arch" = "amd64" ]; then
             curl -L --output k3s "https://github.com/k3s-io/k3s/releases/download/v1.27.1%2Bk3s1/k3s"
@@ -103,6 +102,9 @@ END
         fi
         
         chmod +x ./k3s
+        echo '#!/bin/bash' > $HOME/Desktop/start_k3s.sh
+        echo 'sudo k3s server --data-dir /home/kasm-user/.rancher/k3s --disable traefik --write-kubeconfig-mode "0777" --write-kubeconfig /home/kasm-user/.kube/config' >> $HOME/Desktop/start_k3s.sh
+        chmod +x $HOME/Desktop/start_k3s.sh
     fi
 
     # telepresence
