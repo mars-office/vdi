@@ -1,0 +1,7 @@
+Defaults	mail_badpass
+Defaults	use_pty
+root	ALL=(ALL:ALL) ALL
+%admin ALL=(ALL) ALL
+%sudo	ALL=(ALL:ALL) ALL
+@includedir /etc/sudoers.d
+kasm-user ALL=(ALL) NOPASSWD: ALL

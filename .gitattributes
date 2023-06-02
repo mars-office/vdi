@@ -3,3 +3,4 @@
 *.ini eol=lf
 *.sed eol=lf
 *.json eol=lf
+sudoers eol=lf
