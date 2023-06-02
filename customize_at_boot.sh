@@ -19,6 +19,7 @@ else
     echo "Customizing..."
 
     mkdir -p $HOME/Software
+    grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
     grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
     grep -qxF 'export ASPNETCORE_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export ASPNETCORE_ENVIRONMENT=Development' >> $HOME/.bashrc
     grep -qxF 'export DOTNET_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export DOTNET_ENVIRONMENT=Development' >> $HOME/.bashrc
@@ -102,6 +103,14 @@ END
         fi
         
         chmod +x ./k3s
+    fi
+
+    # telepresence
+    if [ ! -f "$HOME/Software/telepresence" ]
+    then
+        cd $HOME/Software
+        curl -L --output telepresence "https://app.getambassador.io/download/tel2/linux/$(dpkg --print-architecture)/latest/telepresence"
+        chmod +x ./telepresence
     fi
     
     touch $HOME/.customized
