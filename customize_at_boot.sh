@@ -103,7 +103,7 @@ END
         
         chmod +x ./k3s
         echo '#!/bin/bash' > $HOME/Desktop/start_k3s.sh
-        echo 'sudo k3s server --data-dir /home/kasm-user/.rancher/k3s --disable traefik --write-kubeconfig-mode "0777" --write-kubeconfig /home/kasm-user/.kube/config' >> $HOME/Desktop/start_k3s.sh
+        echo 'sudo k3s server --snapshotter native --data-dir /home/kasm-user/.rancher/k3s --disable traefik --write-kubeconfig-mode "0777" --write-kubeconfig /home/kasm-user/.kube/config' >> $HOME/Desktop/start_k3s.sh
         chmod +x $HOME/Desktop/start_k3s.sh
     fi
 
