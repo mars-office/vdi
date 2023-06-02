@@ -187,46 +187,46 @@ END
 END
     fi
 
-    # Brave
-    if [ ! -d "$HOME/Software/brave" ] 
-    then
-        cd $HOME/Software
-        mkdir -p $HOME/Software/brave
-        cd $HOME/Software/brave
-        wget https://github.com/brave/brave-browser/releases/download/v1.46.153/brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
-        unzip ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
-        rm -rf ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
-        chmod +x ./brave
-        chmod +x ./brave-browser
-        touch $HOME/Software/brave-browser
-        chmod +x $HOME/Software/brave-browser
-        tee -a $HOME/Software/brave-browser << END
-#!/bin/bash
-$HOME/Software/brave/brave-browser --no-sandbox --disable-gpu
-END
-        touch $HOME/.local/share/applications/brave.desktop
-        chmod +x $HOME/.local/share/applications/brave.desktop
-        ln -s $HOME/.local/share/applications/brave.desktop $HOME/Desktop/brave.desktop
-        tee -a $HOME/.local/share/applications/brave.desktop << END
-[Desktop Entry]
-Type=Application
-Icon=/home/kasm-user/Software/brave/product_logo_64.png
-Name=Brave
-Comment=Brave Browser
-Categories=Network;
-Exec=/home/kasm-user/Software/brave-browser
-Path=/home/kasm-user/Software
-StartupNotify=true
-Terminal=false
-END
-        touch $HOME/.config/mimeapps.list
-        tee -a $HOME/.config/mimeapps.list << END
-[Default Applications]
-x-scheme-handler/http=brave.desktop
-x-scheme-handler/https=brave.desktop
-END
-        grep -qxF 'export BROWSER=brave-browser' $HOME/.bashrc || echo 'export BROWSER=brave-browser' >> $HOME/.bashrc
-    fi
+#     # Brave
+#     if [ ! -d "$HOME/Software/brave" ] 
+#     then
+#         cd $HOME/Software
+#         mkdir -p $HOME/Software/brave
+#         cd $HOME/Software/brave
+#         wget https://github.com/brave/brave-browser/releases/download/v1.46.153/brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+#         unzip ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+#         rm -rf ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+#         chmod +x ./brave
+#         chmod +x ./brave-browser
+#         touch $HOME/Software/brave-browser
+#         chmod +x $HOME/Software/brave-browser
+#         tee -a $HOME/Software/brave-browser << END
+# #!/bin/bash
+# $HOME/Software/brave/brave-browser --no-sandbox --disable-gpu
+# END
+#         touch $HOME/.local/share/applications/brave.desktop
+#         chmod +x $HOME/.local/share/applications/brave.desktop
+#         ln -s $HOME/.local/share/applications/brave.desktop $HOME/Desktop/brave.desktop
+#         tee -a $HOME/.local/share/applications/brave.desktop << END
+# [Desktop Entry]
+# Type=Application
+# Icon=/home/kasm-user/Software/brave/product_logo_64.png
+# Name=Brave
+# Comment=Brave Browser
+# Categories=Network;
+# Exec=/home/kasm-user/Software/brave-browser
+# Path=/home/kasm-user/Software
+# StartupNotify=true
+# Terminal=false
+# END
+#         touch $HOME/.config/mimeapps.list
+#         tee -a $HOME/.config/mimeapps.list << END
+# [Default Applications]
+# x-scheme-handler/http=brave.desktop
+# x-scheme-handler/https=brave.desktop
+# END
+#         grep -qxF 'export BROWSER=brave-browser' $HOME/.bashrc || echo 'export BROWSER=brave-browser' >> $HOME/.bashrc
+#     fi
 
     
     touch $HOME/.customized
