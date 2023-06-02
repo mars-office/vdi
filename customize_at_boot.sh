@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -ex
-
+architecture=$(dpkg --print-architecture)
 whoami
 sudo su - -c "
 if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
@@ -16,6 +16,8 @@ if  [ -f "$HOME/.customized" ]; then
 else
     echo "Customizing..."
 
+    rm -rf $HOME/Desktop/Uploads
+    rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
     grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
     grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
@@ -24,7 +26,7 @@ else
     grep -qxF 'export FUNCTIONS_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export FUNCTIONS_ENVIRONMENT=Development' >> $HOME/.bashrc
 
     mkdir -p $HOME/.local/share/applications
-
+    source $HOME/.bashrc
     
     # kubectl
     if [ ! -f "$HOME/Software/kubectl" ] 
@@ -32,6 +34,51 @@ else
         cd $HOME/Software
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(dpkg --print-architecture)/kubectl"
         chmod +x ./kubectl
+    fi
+
+    # nodejs
+    if [ ! -d "$HOME/Software/nodejs" ] 
+    then
+        cd $HOME/Software
+        mkdir -p $HOME/Software/nodejs
+        cd $HOME/Software/nodejs
+        if [[ $architecture == "amd64" ]]; then
+            curl -L -o node.tar.xz https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz
+        else
+            curl -L -o node.tar.xz https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-$(dpkg --print-architecture).tar.xz
+        fi
+        tar -xvf ./node.tar.xz
+        rm -rf ./node.tar.xz
+        mv node-*/* .
+        rm -rf node-*
+        chmod +x ./bin/node
+        chmod +x ./bin/npm
+        chmod +x ./bin/npx
+        ln -s $HOME/Software/nodejs/bin/node $HOME/Software/node
+        ln -s $HOME/Software/nodejs/bin/npm $HOME/Software/npm
+        ln -s $HOME/Software/nodejs/bin/npx $HOME/Software/npx
+        mkdir -p $HOME/.npm-packages
+        $HOME/Software/nodejs/bin/npm config set prefix "${HOME}/.npm-packages"
+        $HOME/Software/nodejs/bin/npm i -g gitfox eslint typescript
+        grep -qxF 'export PATH=$PATH:$HOME/.npm-packages/bin' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/.npm-packages/bin' >> $HOME/.bashrc
+    fi
+
+    # opa
+    if [ ! -f "$HOME/Software/opa" ] 
+    then
+        cd $HOME/Software
+        curl -L -o opa https://openpolicyagent.org/downloads/v0.53.0/opa_linux_$(dpkg --print-architecture)_static
+        chmod +x ./opa
+    fi
+
+    # terraform
+    if [ ! -f "$HOME/Software/terraform" ] 
+    then
+        cd $HOME/Software
+        curl -L -o terraform.zip https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_$(dpkg --print-architecture).zip
+        unzip terraform.zip
+        rm -rf terraform.zip
+        chmod +x ./terraform
     fi
 
     # helm
@@ -53,6 +100,134 @@ else
         curl -L --output telepresence "https://app.getambassador.io/download/tel2/linux/$(dpkg --print-architecture)/latest/telepresence"
         chmod +x ./telepresence
     fi
+
+    # Code
+    if [ ! -d "$HOME/Software/vscode" ]
+    then
+        cd $HOME/Software
+        mkdir -p $HOME/Software/vscode
+        cd $HOME/Software/vscode
+        if [[ $architecture == "amd64" ]]; then
+            wget --content-disposition -O code.tar.gz "https://code.visualstudio.com/sha/download?build=stable&os=linux-x64"
+        else
+            wget --content-disposition -O code.tar.gz "https://code.visualstudio.com/sha/download?build=stable&os=linux-$(dpkg --print-architecture)"
+        fi
+        tar -xzvf ./code.tar.gz
+        rm -rf ./code.tar.gz
+        mv VSCode*/* .
+        rm -rf VSCode*
+        chmod +x ./bin/code
+        ln -s $HOME/Software/vscode/bin/code $HOME/Software/code
+        touch $HOME/.local/share/applications/code.desktop
+        chmod +x $HOME/.local/share/applications/code.desktop
+        ln -s $HOME/.local/share/applications/code.desktop $HOME/Desktop/code.desktop
+        tee -a $HOME/.local/share/applications/code.desktop << END
+[Desktop Entry]
+Type=Application
+Icon=/home/kasm-user/Software/vscode/resources/app/resources/linux/code.png
+Name=VS Code
+Comment=VS Code IDE
+Categories=Development;
+Exec=/home/kasm-user/Software/code
+Path=/home/kasm-user/Software
+StartupNotify=true
+Terminal=false
+END
+
+        $HOME/Software/vscode/bin/code --install-extension mikestead.dotenv
+        $HOME/Software/vscode/bin/code --install-extension EditorConfig.EditorConfig
+        $HOME/Software/vscode/bin/code --install-extension dsznajder.es7-react-js-snippets
+        $HOME/Software/vscode/bin/code --install-extension dbaeumer.vscode-eslint
+        $HOME/Software/vscode/bin/code --install-extension donjayamanne.githistory
+        $HOME/Software/vscode/bin/code --install-extension hashicorp.terraform
+        $HOME/Software/vscode/bin/code --install-extension ecmel.vscode-html-css
+        $HOME/Software/vscode/bin/code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
+        $HOME/Software/vscode/bin/code --install-extension tsandall.opa
+        $HOME/Software/vscode/bin/code --install-extension nitayneeman.playwright-snippets
+        $HOME/Software/vscode/bin/code --install-extension Postman.postman-for-vscode
+        $HOME/Software/vscode/bin/code --install-extension esbenp.prettier-vscode
+        $HOME/Software/vscode/bin/code --install-extension ZixuanChen.vitest-explorer
+        $HOME/Software/vscode/bin/code --install-extension vscode-icons-team.vscode-icons
+        $HOME/Software/vscode/bin/code --install-extension redhat.vscode-xml
+        $HOME/Software/vscode/bin/code --install-extension christian-kohler.npm-intellisense
+
+        mkdir -p $HOME/.config/Code/User
+        touch $HOME/.config/Code/User/settings.json
+        tee -a $HOME/.config/Code/User/settings.json << END
+{
+  "window.autoDetectColorScheme": true,
+  "telemetry.telemetryLevel": "off",
+  "workbench.iconTheme": "vscode-icons",
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "workbench.startupEditor": "none",
+  "explorer.confirmDelete": false,
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabSize": 2,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "playwright.reuseBrowser": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "extensions.ignoreRecommendations": true,
+  "vsicons.dontShowNewVersionMessage": true
+}
+
+END
+    fi
+
+    # Brave
+    if [ ! -d "$HOME/Software/brave" ] 
+    then
+        cd $HOME/Software
+        mkdir -p $HOME/Software/brave
+        cd $HOME/Software/brave
+        wget https://github.com/brave/brave-browser/releases/download/v1.46.153/brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+        unzip ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+        rm -rf ./brave-browser-1.46.153-linux-$(dpkg --print-architecture).zip
+        chmod +x ./brave
+        chmod +x ./brave-browser
+        touch $HOME/Software/brave-browser
+        chmod +x $HOME/Software/brave-browser
+        tee -a $HOME/Software/brave-browser << END
+#!/bin/bash
+$HOME/Software/brave/brave-browser --no-sandbox --disable-gpu
+END
+        touch $HOME/.local/share/applications/brave.desktop
+        chmod +x $HOME/.local/share/applications/brave.desktop
+        ln -s $HOME/.local/share/applications/brave.desktop $HOME/Desktop/brave.desktop
+        tee -a $HOME/.local/share/applications/brave.desktop << END
+[Desktop Entry]
+Type=Application
+Icon=/home/kasm-user/Software/brave/product_logo_64.png
+Name=Brave
+Comment=Brave Browser
+Categories=Network;
+Exec=/home/kasm-user/Software/brave-browser
+Path=/home/kasm-user/Software
+StartupNotify=true
+Terminal=false
+END
+        touch $HOME/.config/mimeapps.list
+        tee -a $HOME/.config/mimeapps.list << END
+[Default Applications]
+x-scheme-handler/http=brave.desktop
+x-scheme-handler/https=brave.desktop
+END
+        grep -qxF 'export BROWSER=brave-browser' $HOME/.bashrc || echo 'export BROWSER=brave-browser' >> $HOME/.bashrc
+    fi
+
     
     touch $HOME/.customized
 fi
