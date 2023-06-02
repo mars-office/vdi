@@ -96,9 +96,9 @@ END
         mkdir -p $HOME/.rancher/k3s
         arch=$(dpkg --print-architecture)
         if [ "$arch" = "amd64" ]; then
-            curl -LO --output k3s "https://github.com/k3s-io/k3s/releases/download/v1.27.1%2Bk3s1/k3s"
+            curl -L --output k3s "https://github.com/k3s-io/k3s/releases/download/v1.27.1%2Bk3s1/k3s"
         else
-            curl -LO --output k3s "https://github.com/k3s-io/k3s/releases/download/v1.27.1%2Bk3s1/k3s-$(dpkg --print-architecture)"
+            curl -L --output k3s "https://github.com/k3s-io/k3s/releases/download/v1.27.1%2Bk3s1/k3s-$(dpkg --print-architecture)"
         fi
         
         chmod +x ./k3s
