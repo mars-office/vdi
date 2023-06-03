@@ -224,7 +224,7 @@ END
   fi
 
 
-
+    kubectl config set-context default || true
 
     touch $HOME/.customized
 fi
