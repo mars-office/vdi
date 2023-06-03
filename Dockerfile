@@ -12,6 +12,7 @@ RUN apt-get install -y sudo \
     && rm -rf /var/lib/apt/list/*
 RUN apt-get install -y unzip wget curl busybox nano libfuse2
 RUN echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kasm-user/Software" > /etc/environment
+RUN echo 'TEMP=/home/kasm-user/tmp' >> /etc/environment
 COPY ./sudoers /etc/sudoers
 ######### End Customizations ###########
 

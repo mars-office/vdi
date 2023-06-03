@@ -19,11 +19,13 @@ else
     rm -rf $HOME/Desktop/Uploads
     rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
+    mkdir -p $HOME/tmp
     grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
     grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
     grep -qxF 'export ASPNETCORE_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export ASPNETCORE_ENVIRONMENT=Development' >> $HOME/.bashrc
     grep -qxF 'export DOTNET_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export DOTNET_ENVIRONMENT=Development' >> $HOME/.bashrc
     grep -qxF 'export FUNCTIONS_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export FUNCTIONS_ENVIRONMENT=Development' >> $HOME/.bashrc
+    grep -qxF 'export TMPDIR=/home/kasm-user/tmp' $HOME/.bashrc || echo 'export TMPDIR=/home/kasm-user/tmp' >> $HOME/.bashrc
 
     mkdir -p $HOME/.local/share/applications
     source $HOME/.bashrc
