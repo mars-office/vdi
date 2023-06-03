@@ -20,6 +20,7 @@ else
     rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
     mkdir -p $HOME/tmp
+    rm -rf $HOME/tmp/*
     grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
     grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
     grep -qxF 'export ASPNETCORE_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export ASPNETCORE_ENVIRONMENT=Development' >> $HOME/.bashrc
