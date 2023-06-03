@@ -10,7 +10,7 @@ WORKDIR $HOME
 RUN apt-get update
 RUN apt-get install -y sudo \
     && rm -rf /var/lib/apt/list/*
-RUN apt-get install -y unzip wget curl busybox nano libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+RUN apt-get install -y unzip wget curl busybox nano libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 binutils
 RUN echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kasm-user/Software" > /etc/environment
 COPY ./sudoers /etc/sudoers
 ######### End Customizations ###########

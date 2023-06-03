@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 architecture=$(dpkg --print-architecture)
-whoami
-sudo su - -c "
-if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
-  mkdir -p /sys/fs/cgroup/init
-  busybox xargs -rn1 < /sys/fs/cgroup/cgroup.procs > /sys/fs/cgroup/init/cgroup.procs || :
-  sed -e 's/ / +/g' -e 's/^/+/' <\"/sys/fs/cgroup/cgroup.controllers\" >\"/sys/fs/cgroup/cgroup.subtree_control\"
-fi
-"
+# whoami
+# sudo su - -c "
+# if [ -f /sys/fs/cgroup/cgroup.controllers ]; then
+#   mkdir -p /sys/fs/cgroup/init
+#   busybox xargs -rn1 < /sys/fs/cgroup/cgroup.procs > /sys/fs/cgroup/init/cgroup.procs || :
+#   sed -e 's/ / +/g' -e 's/^/+/' <\"/sys/fs/cgroup/cgroup.controllers\" >\"/sys/fs/cgroup/cgroup.subtree_control\"
+# fi
+# "
 
 rm -rf $HOME/.customized
 if  [ -f "$HOME/.customized" ]; then
