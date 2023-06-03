@@ -121,7 +121,7 @@ else
         touch $HOME/.local/share/applications/code.desktop
         chmod +x $HOME/.local/share/applications/code.desktop
         ln -s $HOME/.local/share/applications/code.desktop $HOME/Desktop/code.desktop
-        tee -a $HOME/.local/share/applications/code.desktop << END
+        tee $HOME/.local/share/applications/code.desktop << END
 [Desktop Entry]
 Type=Application
 Icon=/home/kasm-user/Software/vscode/resources/app/resources/linux/code.png
@@ -153,7 +153,7 @@ END
 
         mkdir -p $HOME/.config/Code/User
         touch $HOME/.config/Code/User/settings.json
-        tee -a $HOME/.config/Code/User/settings.json << END
+        tee $HOME/.config/Code/User/settings.json << END
 {
   "window.autoDetectColorScheme": true,
   "telemetry.telemetryLevel": "off",
@@ -200,14 +200,14 @@ END
 #         chmod +x ./brave-browser
 #         touch $HOME/Software/brave-browser
 #         chmod +x $HOME/Software/brave-browser
-#         tee -a $HOME/Software/brave-browser << END
+#         tee $HOME/Software/brave-browser << END
 # #!/bin/bash
 # $HOME/Software/brave/brave-browser --no-sandbox --disable-gpu
 # END
 #         touch $HOME/.local/share/applications/brave.desktop
 #         chmod +x $HOME/.local/share/applications/brave.desktop
 #         ln -s $HOME/.local/share/applications/brave.desktop $HOME/Desktop/brave.desktop
-#         tee -a $HOME/.local/share/applications/brave.desktop << END
+#         tee $HOME/.local/share/applications/brave.desktop << END
 # [Desktop Entry]
 # Type=Application
 # Icon=/home/kasm-user/Software/brave/product_logo_64.png
@@ -220,7 +220,7 @@ END
 # Terminal=false
 # END
 #         touch $HOME/.config/mimeapps.list
-#         tee -a $HOME/.config/mimeapps.list << END
+#         tee $HOME/.config/mimeapps.list << END
 # [Default Applications]
 # x-scheme-handler/http=brave.desktop
 # x-scheme-handler/https=brave.desktop
