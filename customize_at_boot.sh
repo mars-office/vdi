@@ -16,6 +16,7 @@ if  [ -f "$HOME/.customized" ]; then
 else
     echo "Customizing..."
 
+    sudo chmod 1777 /tmp
     rm -rf $HOME/Desktop/Uploads
     rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
