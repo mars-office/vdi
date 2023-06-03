@@ -27,6 +27,9 @@ else
     grep -qxF 'export DOTNET_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export DOTNET_ENVIRONMENT=Development' >> $HOME/.bashrc
     grep -qxF 'export FUNCTIONS_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export FUNCTIONS_ENVIRONMENT=Development' >> $HOME/.bashrc
     grep -qxF 'export TMPDIR=/home/kasm-user/tmp' $HOME/.bashrc || echo 'export TMPDIR=/home/kasm-user/tmp' >> $HOME/.bashrc
+    grep -qxF 'export TEMPDIR=/home/kasm-user/tmp' $HOME/.bashrc || echo 'export TEMPDIR=/home/kasm-user/tmp' >> $HOME/.bashrc
+    grep -qxF 'export TEMP=/home/kasm-user/tmp' $HOME/.bashrc || echo 'export TEMP=/home/kasm-user/tmp' >> $HOME/.bashrc
+    grep -qxF 'export TMP=/home/kasm-user/tmp' $HOME/.bashrc || echo 'export TMP=/home/kasm-user/tmp' >> $HOME/.bashrc
 
     mkdir -p $HOME/.local/share/applications
     source $HOME/.bashrc
