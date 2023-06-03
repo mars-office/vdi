@@ -51,6 +51,8 @@ spec:
           volumeMounts:
             - name: {{ include "vdi.fullname" . }}-workspace
               mountPath: /home/kasm-user
+            - name: {{ include "vdi.fullname" . }}-tmp
+              mountPath: /tmp
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
@@ -78,3 +80,11 @@ spec:
         resources:
           requests:
             storage: {{ .Values.persistence.workspace.size }}
+    - metadata:
+        name: {{ include "vdi.fullname" . }}-tmp
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.persistence.tmp.size }}

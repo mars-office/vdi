@@ -73,3 +73,5 @@ affinity: {}
 persistence:
   workspace:
     size: 5Gi
+  tmp:
+    size: 1Gi
