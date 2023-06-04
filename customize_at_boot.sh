@@ -172,6 +172,7 @@ END
         $HOME/Software/vscode/bin/code --install-extension vscode-icons-team.vscode-icons
         $HOME/Software/vscode/bin/code --install-extension redhat.vscode-xml
         $HOME/Software/vscode/bin/code --install-extension christian-kohler.npm-intellisense
+        $HOME/Software/vscode/bin/code --install-extension ms-dotnettools.csharp
 
         mkdir -p $HOME/.config/Code/User
         touch $HOME/.config/Code/User/settings.json
