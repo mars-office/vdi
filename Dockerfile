@@ -12,6 +12,10 @@ RUN apt-get install -y sudo \
     && rm -rf /var/lib/apt/list/*
 RUN apt-get install -y unzip wget curl busybox nano libfuse2
 RUN echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kasm-user/Software" > /etc/environment
+RUN wget https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py -O /usr/local/bin/systemctl
+RUN chmod +x /usr/local/bin/systemctl
+RUN wget wget https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/journalctl3.py -O /usr/local/bin/journalctl
+RUN chmod +X /usr/local/bin/journalctl
 COPY ./sudoers /etc/sudoers
 ######### End Customizations ###########
 
