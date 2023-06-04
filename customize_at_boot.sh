@@ -21,10 +21,7 @@ else
     rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
     grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
-    grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
-    grep -qxF 'export ASPNETCORE_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export ASPNETCORE_ENVIRONMENT=Development' >> $HOME/.bashrc
-    grep -qxF 'export DOTNET_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export DOTNET_ENVIRONMENT=Development' >> $HOME/.bashrc
-    grep -qxF 'export FUNCTIONS_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export FUNCTIONS_ENVIRONMENT=Development' >> $HOME/.bashrc
+
 
     mkdir -p $HOME/.local/share/applications
     source $HOME/.bashrc
@@ -62,6 +59,7 @@ else
         $HOME/Software/nodejs/bin/npm config set prefix "${HOME}/.npm-packages"
         $HOME/Software/nodejs/bin/npm i -g gitfox eslint typescript
         grep -qxF 'export PATH=$PATH:$HOME/.npm-packages/bin' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/.npm-packages/bin' >> $HOME/.bashrc
+            grep -qxF 'export NODE_ENV=development' $HOME/.bashrc || echo 'export NODE_ENV=development' >> $HOME/.bashrc
     fi
 
     # opa
@@ -80,6 +78,29 @@ else
         unzip terraform.zip
         rm -rf terraform.zip
         chmod +x ./terraform
+    fi
+
+    # dotnet
+    if [ ! -d "$HOME/Software/dotnet-sdk" ] 
+    then
+        cd $HOME/Software
+        mkdir -p $HOME/Software/dotnet-sdk
+        cd $HOME/Software/dotnet-sdk
+        if [[ $architecture == "amd64" ]]; then
+            curl -L -o dotnet.tar.gz https://download.visualstudio.microsoft.com/download/pr/351400ef-f2e6-4ee7-9d1b-4c246231a065/9f7826270fb36ada1bdb9e14bc8b5123/dotnet-sdk-7.0.302-linux-x64.tar.gz
+        else
+            curl -L -o dotnet.tar.gz https://download.visualstudio.microsoft.com/download/pr/142603ad-0df5-4aef-bdc2-87b6140c90ed/2cce467e6c954d01024942b8370aaf70/dotnet-sdk-7.0.302-linux-arm64.tar.gz
+        fi
+        tar -xzvf dotnet.tar.gz
+        rm -rf dotnet.tar.gz
+        chmod +x ./dotnet
+        mkdir -p $HOME/.dotnet
+        ln -s $HOME/Software/dotnet-sdk/dotnet $HOME/Software/dotnet
+        grep -qxF 'export ASPNETCORE_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export ASPNETCORE_ENVIRONMENT=Development' >> $HOME/.bashrc
+        grep -qxF 'export DOTNET_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export DOTNET_ENVIRONMENT=Development' >> $HOME/.bashrc
+        grep -qxF 'export FUNCTIONS_ENVIRONMENT=Development' $HOME/.bashrc || echo 'export FUNCTIONS_ENVIRONMENT=Development' >> $HOME/.bashrc
+        grep -qxF 'export DOTNET_ROOT=\$HOME/.dotnet' $HOME/.bashrc || echo 'export DOTNET_ROOT=$HOME/.dotnet' >> $HOME/.bashrc
+        grep -qxF 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools' >> $HOME/.bashrc
     fi
 
     # helm
