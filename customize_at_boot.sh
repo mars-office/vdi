@@ -225,7 +225,19 @@ END
   fi
 
 
-    kubectl config set-context default || true
+
+
+
+
+
+    kubectl config set-cluster default --server https://10.43.0.1:443 --insecure-skip-tls-verify=true || true
+    kubectl config set-credentials vdi-$USERNAME --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) || true
+    kubectl config set-context default --user=vdi-$USERNAME --cluster=default || true
+    kubectl config use-context default || true
+
+
+
+
 
     touch $HOME/.customized
 fi
