@@ -10,7 +10,7 @@ WORKDIR $HOME
 RUN apt-get update
 RUN apt-get install -y sudo \
     && rm -rf /var/lib/apt/list/*
-RUN apt-get install -y unzip wget curl busybox nano libfuse2
+RUN apt-get install -y unzip wget curl busybox nano libfuse2 fuse-overlayfs
 RUN echo "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/kasm-user/Software" > /etc/environment
 RUN wget https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl3.py -O /usr/local/bin/systemctl
 RUN chmod +x /usr/local/bin/systemctl
