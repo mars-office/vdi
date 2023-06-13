@@ -20,6 +20,7 @@ else
     rm -rf $HOME/Desktop/Uploads
     rm -rf $HOME/Desktop/Downloads
     mkdir -p $HOME/Software
+    mkdir -p $HOME/Software/icons
     grep -qxF 'export PATH=$PATH:$HOME/Software' $HOME/.bashrc || echo 'export PATH=$PATH:$HOME/Software' >> $HOME/.bashrc
 
 
@@ -221,6 +222,8 @@ END
         else
             curl -L -o librewolf https://gitlab.com/api/v4/projects/24386000/packages/generic/librewolf/113.0.2-1/LibreWolf.aarch64.AppImage
         fi
+        curl -L -o librewolf.png https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/LibreWolf_icon.svg/480px-LibreWolf_icon.svg.png
+        mv librewolf.png icons/librewolf.png
         chmod +x ./librewolf
         touch $HOME/.local/share/applications/librewolf.desktop
         chmod +x $HOME/.local/share/applications/librewolf.desktop
@@ -228,7 +231,7 @@ END
         tee $HOME/.local/share/applications/librewolf.desktop << END
 [Desktop Entry]
 Type=Application
-Icon=/home/kasm-user/Software/librewolf
+Icon=/home/kasm-user/Software/icons/librewolf.png
 Name=Librewolf
 Comment=Librewolf browser
 Categories=Network;
